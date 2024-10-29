@@ -12,8 +12,11 @@
 | Libraries   | LangChain, Pandas, Transformers  |
 
 # Implementation
-Data Collection: Gather German and English lyrics datasets.
-Model Fine-tuning: Fine-tune LLMs on the dataset.
-Database Integration: Connect a vector database to the LLM.
-Testing: Evaluate the RAG architecture’s performance.
+1.Data Collection: Gather German and English lyrics datasets.
+
+2.Model Fine-tuning: Fine-tune LLMs on the dataset.
+
+3.Database Integration: Connect a vector database to the LLM.
+
+4.Testing: Evaluate the RAG architecture’s performance.
 
