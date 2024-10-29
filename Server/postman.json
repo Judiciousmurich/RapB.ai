@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "b8e9a3f2-1234-5678-9abc-def012345678",
+		"name": "RAP-B API",
+		"description": "Collection for testing RAP-B (Rap Analysis and Processing Bot) API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "document_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "session_id",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Document Management",
+			"item": [
+				{
+					"name": "Upload Text",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.document_id) {",
+									"    pm.collectionVariables.set('document_id', jsonData.document_id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Verse 1:\\nIn the darkness of the night\\nI search for the light\\nThrough the shadows I roam\\nTrying to find my way home\\n\\nChorus:\\nHope is all we need\\nTo set our spirits free\\nIn this world of pain\\nWe'll rise up again\\n\\nVerse 2:\\nEvery step I take\\nEvery move I make\\nBrings me closer to the dawn\\nWhere my fears are gone\",\n    \"title\": \"Sample Rap Lyrics\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/upload/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "upload"]
+						},
+						"description": "Upload text content directly"
+					}
+				},
+				{
+					"name": "Upload File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.document_id) {",
+									"    pm.collectionVariables.set('document_id', jsonData.document_id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/path/to/your/file.txt"
+								},
+								{
+									"key": "title",
+									"value": "Uploaded Lyrics",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/upload/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "documents", "upload"]
+						},
+						"description": "Upload a file containing lyrics"
+					}
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Start New Chat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.session_id) {",
+									"    pm.collectionVariables.set('session_id', jsonData.session_id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"What are the main themes in these lyrics?\",\n    \"document_id\": \"{{document_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat"]
+						},
+						"description": "Start a new chat session"
+					}
+				},
+				{
+					"name": "Continue Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Can you explain more about the emotional tone?\",\n    \"session_id\": \"{{session_id}}\",\n    \"document_id\": \"{{document_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat"]
+						},
+						"description": "Continue existing chat session"
+					}
+				},
+				{
+					"name": "Analyze Structure",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"How is this song structured? Analyze the patterns and organization.\",\n    \"session_id\": \"{{session_id}}\",\n    \"document_id\": \"{{document_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat"]
+						},
+						"description": "Analyze song structure"
+					}
+				}
+			]
+		},
+		{
+			"name": "Chat History",
+			"item": [
+				{
+					"name": "Get All Sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/chat/history/?page=1&page_size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "history"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "page_size",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get list of all chat sessions"
+					}
+				},
+				{
+					"name": "Get Session History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/chat/history/{{session_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "history", "{{session_id}}"]
+						},
+						"description": "Get history for specific session"
+					}
+				},
+				{
+					"name": "Delete Session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/chat/history/{{session_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "history", "{{session_id}}"]
+						},
+						"description": "Delete a chat session"
+					}
+				},
+				{
+					"name": "Update Session",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Session Title\",\n    \"document_id\": \"{{document_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/chat/history/{{session_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "chat", "history", "{{session_id}}"]
+						},
+						"description": "Update session properties"
+					}
+				}
+			]
+		}
+	]
+}

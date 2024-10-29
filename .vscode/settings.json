@@ -1,0 +1,3 @@
+{
+    "python.autoComplete.extraPaths": ["./lyriq_ai_server", "./api"]
+}
