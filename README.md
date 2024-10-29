@@ -1,5 +1,15 @@
 # RapB.ai
 
+## Research Goals
+1.Data Chunking: Preserve context when segmenting large lyrics.
+
+2.Quantization: Balance VRAM usage and precision.
+ 
+3.Language Generalization: Test cross-language effectiveness (German to English).
+
+4.Domain Adaptation: Explore generalizability of models trained on rap lyrics.
+
+
 ## Technology Stack
 
 | Component   | Details                          |
@@ -11,7 +21,8 @@
 | Database    | Chroma        |
 | Libraries   | LangChain, Pandas, Transformers  |
 
-# Implementation
+
+## Implementation
 1.Data Collection: Gather German and English lyrics datasets.
 
 2.Model Fine-tuning: Fine-tune LLMs on the dataset.
